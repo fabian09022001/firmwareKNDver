@@ -38,6 +38,9 @@
 #include "target_specific.h"
 #include <memory>
 #include <utility>
+//adding for low battery detection (KND)
+#include "concurrency/LedPwmThread.h"
+concurrency::LedPwmThread *ledPwmThread = nullptr;
 
 #ifdef ARCH_ESP32
 #include "freertosinc.h"
@@ -504,6 +507,7 @@ void setup()
     power->setStatusHandler(powerStatus);
     powerStatus->observe(&power->newStatus);
     power->setup(); // Must be after status handler is installed, so that handler gets notified of the initial configuration
+    ledPwmThread = new concurrency::LedPwmThread(PIN_QSPI_IO3, powerStatus);
 
 #if !MESHTASTIC_EXCLUDE_I2C
     // We need to scan here to decide if we have a screen for nodeDB.init() and because power has been applied to
