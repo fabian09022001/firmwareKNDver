@@ -41,6 +41,9 @@
 //adding for low battery detection (KND)
 #include "concurrency/LedPwmThread.h"
 concurrency::LedPwmThread *ledPwmThread = nullptr;
+//adding for blinking led behaviour (KND)
+#include "concurrency/LedBlinkThread.h"
+concurrency::LedBlinkThread* ledBlinkThread = nullptr;
 
 #ifdef ARCH_ESP32
 #include "freertosinc.h"
@@ -508,6 +511,8 @@ void setup()
     powerStatus->observe(&power->newStatus);
     power->setup(); // Must be after status handler is installed, so that handler gets notified of the initial configuration
     // ledPwmThread = new concurrency::LedPwmThread(PIN_QSPI_IO3, powerStatus);
+    ledBlinkThread = new concurrency::LedBlinkThread(PIN_LED1, PIN_LED2, powerStatus);
+    // ledBlinkThread->start();
 
 #if !MESHTASTIC_EXCLUDE_I2C
     // We need to scan here to decide if we have a screen for nodeDB.init() and because power has been applied to
