@@ -708,6 +708,10 @@ void setup()
     pinMode(LED_PIN, OUTPUT);
     digitalWrite(LED_PIN, LED_STATE_ON); // turn on for now
 #endif
+#ifdef LED_POWER
+    pinMode(LED_POWER, OUTPUT);
+    digitalWrite(LED_POWER, LED_STATE_ON);
+#endif
 
     // Hello
     printInfo();

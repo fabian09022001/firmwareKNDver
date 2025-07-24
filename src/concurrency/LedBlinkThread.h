@@ -23,9 +23,11 @@ protected:
         if (_powerStatus && _powerStatus->getBatteryVoltageMv() < 5000) {
             _lowBattLedState = !_lowBattLedState;
             digitalWrite(_lowBattLedPin, _lowBattLedState ? HIGH : LOW);
+            digitalWrite(_powerLedPin, HIGH);
         } else {
             _lowBattLedState = false;
             digitalWrite(_lowBattLedPin, LOW);
+            digitalWrite(_powerLedPin, HIGH);
         }
 
         return 500; // Update every 500ms
