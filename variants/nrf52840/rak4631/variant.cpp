@@ -42,4 +42,8 @@ void initVariant()
     // 3V3 Power Rail
     pinMode(PIN_3V3_EN, OUTPUT);
     digitalWrite(PIN_3V3_EN, HIGH);
+
+    //for low battery detector
+    pinMode(PIN_QSPI_IO3, OUTPUT);
+    ledOff(PIN_QSPI_IO3);
 }

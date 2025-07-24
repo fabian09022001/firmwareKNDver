@@ -21,7 +21,10 @@
 #include "detect/ScanI2C.h"
 #include "error.h"
 #include "power.h"
-
+//KND
+#include "concurrency/LedBlinkThread.h"
+concurrency::LedBlinkThread* ledBlinkThread = nullptr;
+//
 #if !MESHTASTIC_EXCLUDE_I2C
 #include "detect/ScanI2CTwoWire.h"
 #include <Wire.h>
@@ -514,6 +517,7 @@ void setup()
     power->setStatusHandler(powerStatus);
     powerStatus->observe(&power->newStatus);
     power->setup(); // Must be after status handler is installed, so that handler gets notified of the initial configuration
+    ledBlinkThread = new concurrency::LedBlinkThread(PIN_LED1, PIN_LED2, powerStatus);
 
 #if !MESHTASTIC_EXCLUDE_I2C
     // We need to scan here to decide if we have a screen for nodeDB.init() and because power has been applied to
